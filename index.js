@@ -126,7 +126,7 @@ function setupWebserver(port, host) {
 async function execute() {
     const port = process.env.PORT || 9102
     const host = process.env.HOST || 'localhost'
-    const wsAddress = process.env.WS_ADDRESS || 'wss://peregrine.kilt.io'
+    const wsAddress = process.env.WS_ADDRESS || 'wss://peregrine.kilt.io/parachain-public-ws'
 
     console.log("👀 Watch block authors")
 
