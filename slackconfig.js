@@ -23,4 +23,7 @@ export const eventMessage = {
     enteredTopCandidates: 'There is a new collator!',
     leftTopCandidates: 'A collator left or was pushed out of the set',
   },
+  treasury: {
+    proposed: 'There is a new treasury proposal!'
+  }
 }

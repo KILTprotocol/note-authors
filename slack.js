@@ -23,6 +23,15 @@ ${JSON.stringify(record.event.data, null, 2)}
         },
       },
       {
+        type: 'context',
+        elements: [
+          {
+            type: 'plain_text',
+            text: `Blockchain: '${chainName}' Runtime: '${runtimeVersion}'`,
+          },
+        ],
+      },
+      {
         type: 'section',
         text: {
           type: 'mrkdwn',
@@ -38,15 +47,6 @@ ${JSON.stringify(record.event.data, null, 2)}
           type: 'mrkdwn',
           text: message,
         },
-      },
-      {
-        type: 'context',
-        elements: [
-          {
-            type: 'plain_text',
-            text: `Blockchain: '${chainName}' Runtime: '${runtimeVersion}'`,
-          },
-        ],
       },
     ],
   }
