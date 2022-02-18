@@ -27,14 +27,14 @@ jobs:
 
     - name: Build image
       run: |
-        docker build -t kilt/note-authors .
+        docker build -t note-authors .
     - name: Tag, and push image to Amazon ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: kilt/note-authors
+        ECR_REPOSITORY: note-authors
       run: |
         IMAGE_TAG=${GITHUB_REF#refs/tags/}
-        docker tag kilt/note-authors $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        docker tag kilt/note-authors $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker tag note-authors $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        docker tag note-authors $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
