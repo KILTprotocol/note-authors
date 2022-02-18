@@ -60,7 +60,7 @@ async function sendNotification(api, record, config) {
     api.runtimeVersion.specVersion.toString(),
   )
 
-  console.log('🏤', JSON.stringify(msg, null, 2))
+  console.log('🏤', record.event.section, record.event.method)
   await got.post(slackWebhook, {
     json: msg,
   })
