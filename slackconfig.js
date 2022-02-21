@@ -1,5 +1,7 @@
 export const slackWebhook = process.env.SLACK_WEBHOOK
 
+export const SUBSCAN = 'spiritnet.subscan.io'
+
 export const eventMessage = {
   democracy: {
     Passed: 'A referendum was successful and will be executed in ~1 day',
@@ -20,10 +22,10 @@ export const eventMessage = {
     '*': 'The KILT Launch pallet did something!',
   },
   parachainStaking: {
-    enteredTopCandidates: 'There is a new collator!',
-    leftTopCandidates: 'A collator left or was pushed out of the set',
+    EnteredTopCandidates: 'There is a new collator!',
+    LeftTopCandidates: 'A collator left or was pushed out of the set',
   },
   treasury: {
-    proposed: 'There is a new treasury proposal!'
-  }
+    Proposed: 'There is a new treasury proposal!',
+  },
 }
