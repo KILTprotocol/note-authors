@@ -80,10 +80,9 @@ async function sendNotification(api, record, index, signedBlock, config) {
   )
 
   console.log('🏤', record.event.section, record.event.method)
-  console.log(JSON.stringify(msg))
-  // await got.post(slackWebhook, {
-  //   json: msg,
-  // })
+  await got.post(slackWebhook, {
+    json: msg,
+  })
 }
 
 export async function notifySlack(api, chainState, header, signedBlock) {
