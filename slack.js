@@ -11,7 +11,14 @@ function buildMessage(
   blockNum,
   blockHash,
 ) {
-  const extrinsicNum = record.phase.asApplyExtrinsic
+  let subscanLink = ""
+  if (record.phase.isApplyExtrinsic) {
+    const extrinsicNum = record.phase.asApplyExtrinsic
+    subscanLink = `<https://spiritnet.subscan.io/extrinsic/${blockNum}-${extrinsicNum}?event=${blockNum}-${eventNum}|subscan>`
+  } else {
+    subscanLink = `<https://spiritnet.subscan.io/block/${blockNum}|subscan>`
+  }
+
   const docStr = '> ' + record.event.meta.docs.join('\n> ')
   const message = `${docStr}
 ${JSON.stringify(record.event.data, null, 2)}
@@ -42,16 +49,12 @@ ${JSON.stringify(record.event.data, null, 2)}
           type: 'mrkdwn',
           text: msgConfig,
         },
-        accessory: {
-          type: 'button',
-          text: {
-            type: 'plain_text',
-            text: 'Subscan',
-            emoji: true,
-          },
-          value: 'subscan',
-          url: `https://spiritnet.subscan.io/extrinsic/${blockNum}-${extrinsicNum}?event=${blockNum}-${eventNum}`,
-          action_id: 'subscan-action',
+      },
+      {
+        type: 'section',
+        text: {
+          type: 'mrkdwn',
+          text: subscanLink,
         },
       },
       {
@@ -80,6 +83,7 @@ async function sendNotification(api, record, index, signedBlock, config) {
   )
 
   console.log('🏤', record.event.section, record.event.method)
+  console.log('🏤', JSON.stringify(msg))
   await got.post(slackWebhook, {
     json: msg,
   })
@@ -96,8 +100,7 @@ export async function notifySlack(api, chainState, header, signedBlock) {
 
     if (typeof msgConfigSpecific !== 'undefined') {
       sendNotification(api, record, index, signedBlock, msgConfigSpecific)
-    }
-    if (typeof msgConfigWildcard !== 'undefined') {
+    } else if (typeof msgConfigWildcard !== 'undefined') {
       sendNotification(api, record, index, signedBlock, msgConfigWildcard)
     }
   })

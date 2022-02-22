@@ -6,7 +6,7 @@ export const eventMessage = {
   democracy: {
     Passed: 'A referendum was successful and will be executed in ~1 day',
     Executed: 'A referendum was executed!',
-    Tabled: 'A referendum was tabled! Please vote now.',
+    Started: 'A referendum was started! Please vote now.',
     Proposed:
       'There is a new proposal! Is it good? -> Second it! Is it bad? -> Tech Committee can cancel it.',
   },
@@ -27,5 +27,10 @@ export const eventMessage = {
   },
   treasury: {
     Proposed: 'There is a new treasury proposal!',
+  },
+  council: {
+    '*': 'Review the council action',
+    Closed: 'Something passed',
+    Voted: 'voted...',
   },
 }
