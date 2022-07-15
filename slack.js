@@ -117,7 +117,7 @@ export async function checkForSkycFailure(api, signedBlock) {
       return extrinsic.isSigned && extrinsic.callIndex[0] === CALL_INDEX[0] && extrinsic.callIndex[1] === CALL_INDEX[1] && extrinsic.signer.toString() == process.env.SKYC_ADDRESS
     }
   )
-  console.log(`SKYC DID txs for block: [${skycDidTxs}]`)
+  console.log(`# of SKYC DID txs for block: [${skycDidTxs.length}]`)
 
   const allRecords = await api.query.system.events()
 
