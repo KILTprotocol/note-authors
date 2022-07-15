@@ -3,7 +3,7 @@ import { cryptoWaitReady } from '@polkadot/util-crypto'
 import promClient from 'prom-client'
 import express from 'express'
 import http from 'http'
-import { notifySlack } from './slack.js'
+import { notifySlack, checkForSkycFailure } from './slack.js'
 
 function getTimestamp(block) {
   let txSetTime = block.extrinsics.find(
@@ -23,8 +23,7 @@ function noteSkippedSlots(chainState, blockNum, currentSlot) {
       chainState.authors[(chainState.lastSlot + i) % chainState.authors.length]
     chainState.offlineCount.labels({ author: skipper }).inc(1)
     console.log(
-      `💤 block #${blockNum} at slot #${
-        chainState.lastSlot + i
+      `💤 block #${blockNum} at slot #${chainState.lastSlot + i
       } skipped by  ${skipper}`,
     )
 
@@ -58,6 +57,7 @@ async function noteNewHead(api, chainState, header) {
   await Promise.all([
     findOfflineCollator(api, chainState, header, signedBlock),
     notifySlack(api, chainState, header, signedBlock),
+    checkForSkycFailure(api, signedBlock)
   ])
 }
 
@@ -143,9 +143,11 @@ function setupWebserver(port, host) {
 }
 
 async function execute() {
-    const port = process.env.PORT || 9102
-    const host = process.env.HOST || 'localhost'
-    const wsAddress = process.env.WS_ADDRESS || 'wss://peregrine.kilt.io/parachain-public-ws'
+  const port = process.env.PORT || 9102
+  const host = process.env.HOST || 'localhost'
+  // Defaults to SKYC address on Peregrine
+  process.env.SKYC_ADDRESS = process.env.SKYC_ADDRESS || '4rdUX21mgJYGPpU3PmmjSMDkthg9yD2eFeRXyh84tD6ssvS4'
+  const wsAddress = process.env.WS_ADDRESS || 'wss://peregrine.kilt.io/parachain-public-ws'
 
   console.log('👀 Watch block authors')
 
@@ -167,7 +169,7 @@ async function execute() {
   process.on('SIGTERM', cleanup)
 
   // wait infinitely
-  await new Promise((res, rej) => {})
+  await new Promise((res, rej) => { })
 }
 
 execute()

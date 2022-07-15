@@ -1,6 +1,6 @@
 export const slackWebhook = process.env.SLACK_WEBHOOK
 
-export const SUBSCAN = 'spiritnet.subscan.io'
+export const SUBSCAN = 'kilt-testnet.subscan.io'
 
 export const eventMessage = {
   democracy: {
